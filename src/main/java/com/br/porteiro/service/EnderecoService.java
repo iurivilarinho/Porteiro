@@ -18,13 +18,13 @@ public class EnderecoService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
-	@Transactional
-	public Endereco cadastrar(EnderecoForm enderecoForm) {
-		Endereco endereco = new Endereco(enderecoForm.getCep(), enderecoForm.getLogradouro(), enderecoForm.getNumero(),
-				enderecoForm.getComplemento(), enderecoForm.getBairro(), enderecoForm.getCidade(),
-				enderecoForm.getEstado());
-		return enderecoRepository.save(endereco);
-	}
+//	@Transactional
+//	public Endereco cadastrar(EnderecoForm enderecoForm) {
+//		Endereco endereco = new Endereco(enderecoForm.getCep(), enderecoForm.getLogradouro(), enderecoForm.getNumero(),
+//				enderecoForm.getComplemento(), enderecoForm.getBairro(), enderecoForm.getCidade(),
+//				enderecoForm.getEstado());
+//		return enderecoRepository.save(endereco);
+//	}
 
 	@Transactional(readOnly = true)
 	public Endereco buscarEnderecoPorId(Long id) {
@@ -41,7 +41,7 @@ public class EnderecoService {
 	public Endereco atualizar(EnderecoForm enderecoForm, Long id) {
 		Endereco enderecoExistente = buscarEnderecoPorId(id);
 		enderecoExistente.setCep(enderecoForm.getCep());
-		enderecoExistente.setLogradouro(enderecoForm.getLogradouro());
+		//enderecoExistente.setLogradouro(enderecoForm.getLogradouro());
 		enderecoExistente.setNumero(enderecoForm.getNumero());
 		enderecoExistente.setComplemento(enderecoForm.getComplemento());
 		enderecoExistente.setBairro(enderecoForm.getBairro());

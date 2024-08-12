@@ -71,9 +71,6 @@ public class Usuario implements UserDetails {
 	@Column(name = "status")
 	private Boolean status;
 
-	@OneToMany(mappedBy = "lider", fetch = FetchType.EAGER)
-	private Set<Usuario> subordinados = new HashSet<>();
-
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuario_x_Perfil", joinColumns = @JoinColumn(name = "fk_Id_Usuario"), inverseJoinColumns = @JoinColumn(name = "fk_Id_Perfil"))
 	@Fetch(FetchMode.JOIN)
@@ -94,7 +91,7 @@ public class Usuario implements UserDetails {
 		this.imagem = imagem;
 		this.status = true;
 		this.cargo = form.getCargo();
-	
+
 	}
 
 	public Long getId() {
