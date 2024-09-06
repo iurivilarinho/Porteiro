@@ -1,6 +1,9 @@
 package com.br.porteiro.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,8 +30,9 @@ public class Endereco {
 	private String estado;
 	private String cep;
 
+	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name = "fk_Id_Pessoa")
+	@JoinColumn(name = "fk_Id_Pessoa", foreignKey = @ForeignKey(name = "FK_FROM_TBPESSOA_FOR_TBENDERECO"))
 	private Pessoa pessoa;
 
 	public Endereco() {

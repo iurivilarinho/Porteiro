@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import com.br.porteiro.models.Endereco;
 import com.br.porteiro.models.InformacaoSeguranca;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class PessoaForm {
 
 	private String nomeCompleto;
@@ -15,6 +18,8 @@ public class PessoaForm {
 	private String estadoCivil;
 	private String telefoneCelular;
 	private String telefoneResidencial;
+	@NotBlank(message = "email não pode ser vazio")
+	@Email(message = "email invalido")
 	private String email;
 	private Endereco endereco;
 	private InformacaoSeguranca informacaoSeguranca;

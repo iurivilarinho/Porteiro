@@ -1,13 +1,17 @@
 package com.br.porteiro.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.br.porteiro.form.PessoaForm;
+import com.br.porteiro.models.Endereco;
+import com.br.porteiro.models.InformacaoSeguranca;
 import com.br.porteiro.models.Pessoa;
 import com.br.porteiro.repository.PessoaRepository;
 
@@ -18,6 +22,9 @@ public class PessoaService {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
+
+	@Autowired
+	private DocumentoService documentoService;
 
 	@Transactional(readOnly = true)
 	public List<Pessoa> findAll() {
@@ -31,8 +38,17 @@ public class PessoaService {
 	}
 
 	@Transactional
-	public Pessoa save(PessoaForm form) {
-		return pessoaRepository.save(new Pessoa(form));
+	public Pessoa save(PessoaForm form, MultipartFile file) throws IOException {
+
+		Pessoa pessoa = new Pessoa(form, file != null ? documentoService.converterEmDocumento(file) : null);
+		Endereco endereco = form.getEndereco();
+		endereco.setPessoa(pessoa);
+		pessoa.setEndereco(endereco);
+		InformacaoSeguranca infoSeg = form.getInformacaoSeguranca();
+		pessoa.setInformacaoSeguranca(infoSeg);
+		infoSeg.setPessoa(pessoa);
+
+		return pessoaRepository.save(pessoa);
 	}
 
 	@Transactional

@@ -3,10 +3,12 @@ package com.br.porteiro.models;
 import java.time.LocalDate;
 
 import com.br.porteiro.enums.TiposDeTipos.TiposPessoa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +24,6 @@ public class InformacaoSeguranca {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String urlFotoPerfil;
 	private String codigoAcesso;
 	@Enumerated(EnumType.STRING)
 	private TiposPessoa tipoPessoa;
@@ -34,8 +35,9 @@ public class InformacaoSeguranca {
 	private String relacaoContatoEmergencia;
 	private String telefoneContatoEmergencia;
 
+	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name = "fk_Id_Pessoa")
+	@JoinColumn(name = "fk_Id_Pessoa", foreignKey = @ForeignKey(name = "FK_FROM_TBPESSOA_FOR_TBINFORMACOESSEGURANCA"))
 	private Pessoa pessoa;
 
 	public InformacaoSeguranca() {
@@ -48,14 +50,6 @@ public class InformacaoSeguranca {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUrlFotoPerfil() {
-		return urlFotoPerfil;
-	}
-
-	public void setUrlFotoPerfil(String urlFotoPerfil) {
-		this.urlFotoPerfil = urlFotoPerfil;
 	}
 
 	public String getCodigoAcesso() {

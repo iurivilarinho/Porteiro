@@ -6,9 +6,12 @@ import com.br.porteiro.form.PessoaForm;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -30,6 +33,10 @@ public class Pessoa {
 	private String telefoneResidencial;
 	private String email;
 
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_Id_Documento", foreignKey = @ForeignKey(name = "FK_FROM_TBDOCUMENTO_FOR_TBPESSOA"))
+	private Documento foto;
+
 	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Endereco endereco;
 
@@ -39,7 +46,7 @@ public class Pessoa {
 	public Pessoa() {
 	}
 
-	public Pessoa(PessoaForm form) {
+	public Pessoa(PessoaForm form, Documento foto) {
 		this.nomeCompleto = form.getNomeCompleto();
 		this.dataNascimento = form.getDataNascimento();
 		this.cpf = form.getCpf();
@@ -51,6 +58,7 @@ public class Pessoa {
 		this.email = form.getEmail();
 		this.endereco = form.getEndereco();
 		this.informacaoSeguranca = form.getInformacaoSeguranca();
+		this.foto = foto;
 	}
 
 	public Long getId() {
@@ -147,6 +155,14 @@ public class Pessoa {
 
 	public void setInformacaoSeguranca(InformacaoSeguranca informacaoSeguranca) {
 		this.informacaoSeguranca = informacaoSeguranca;
+	}
+
+	public Documento getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Documento foto) {
+		this.foto = foto;
 	}
 
 }

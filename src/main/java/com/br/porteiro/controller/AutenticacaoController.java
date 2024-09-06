@@ -40,46 +40,14 @@ public class AutenticacaoController {
 
 			HttpHeaders headers = new HttpHeaders();
 
-			// Verifica o User-Agent para identificar dispositivos móveis
-			String userAgent = request.getHeader("User-Agent");
-			boolean isMobile = userAgent != null && (userAgent.contains("Mobi") || userAgent.contains("okhttp")
-					|| userAgent.contains("Android") || userAgent.contains("iPhone"));
+			headers.add("Authorization", "Bearer " + tokenJWT);
 
-			System.out.println("User agent: " + userAgent);
+			// Adiciona o token no cookie com SameSite=None e Secure
+			ResponseCookie cookie = ResponseCookie.from("token", tokenJWT).httpOnly(true).secure(true).sameSite("None")
+					.maxAge(604800).path("/").build();
 
-			if (isMobile) {
-				// Requisição AJAX, adicione o token no cabeçalho da resposta
-				headers.add("Authorization", "Bearer " + tokenJWT);
-				System.out.println("Requisição AJAX");
-			} else {
-				// Verifica se o navegador suporta cookies de terceiros
-				boolean suportaCookiesTerceiros = request.getHeader("Sec-Fetch-Site") != null
-						&& request.getHeader("Sec-Fetch-Mode") != null;
-
-				if (suportaCookiesTerceiros) {
-					// Adiciona o token no cookie com SameSite=None e Secure
-					ResponseCookie cookie = ResponseCookie.from("token", tokenJWT).httpOnly(true).secure(true)
-							.sameSite("None").maxAge(604800).path("/").build();
-
-					// Adiciona o cookie no cabeçalho da resposta
-					headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
-					System.out.println("add cookie1");
-				} else {
-					// Adiciona o token no cookie padrão
-					ResponseCookie cookie = ResponseCookie.from("token", tokenJWT).httpOnly(true).secure(true)
-							.sameSite("None").maxAge(604800).path("/").build();
-
-					// Adiciona o cookie no cabeçalho da resposta
-					headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
-					System.out.println("add cookie2");
-				}
-			}
-
-			if (isMobile) {
-				System.out.println("Requisição veio de um dispositivo móvel.");
-			} else {
-				System.out.println("Requisição veio da web.");
-			}
+			// Adiciona o cookie no cabeçalho da resposta
+			headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
 
 			return ResponseEntity.ok().headers(headers).body(usuario);
 		} catch (BadCredentialsException e) {
