@@ -14,7 +14,7 @@ public class DocumentoService {
 
 	public Documento converterEmDocumento(MultipartFile file) throws IOException {
 		if (file != null) {
-			return new Documento(file.getName(), file.getContentType(), file.getBytes());
+			return new Documento(file.getOriginalFilename(), file.getContentType(), file.getBytes());
 		}
 		return null;
 	}
@@ -26,7 +26,7 @@ public class DocumentoService {
 			file.forEach(f -> {
 				if (!f.isEmpty()) {
 					try {
-						documentos.add(new Documento(f.getName(), f.getContentType(), f.getBytes()));
+						documentos.add(new Documento(f.getOriginalFilename(), f.getContentType(), f.getBytes()));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

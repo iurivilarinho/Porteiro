@@ -8,6 +8,7 @@ import java.util.Set;
 import com.br.porteiro.form.RifaForm;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -29,12 +30,16 @@ public class Rifa {
 
 	private String title;
 
+	@Column(length = 2000)
 	private String description;
 
 	private Float quotaPrice;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Usuario userCreation;
+
+	@Column(length = 2000)
+	private String descriptionAward;
 
 	@OneToMany(mappedBy = "rifa", cascade = CascadeType.ALL)
 	private List<Cota> cotas = new ArrayList<>();
@@ -47,11 +52,13 @@ public class Rifa {
 		super();
 	}
 
-	public Rifa(RifaForm form, Set<Documento> file) {
+	public Rifa(RifaForm form, Set<Documento> file, Usuario userCreation) {
 		this.title = form.getTitle();
 		this.description = form.getDescription();
 		this.images = file;
 		this.quotaPrice = form.getQuotaPrice();
+		this.userCreation = userCreation;
+		this.descriptionAward = form.getDescriptionAward();
 	}
 
 	public Long getId() {
@@ -108,6 +115,14 @@ public class Rifa {
 
 	public void setUserCreation(Usuario userCreation) {
 		this.userCreation = userCreation;
+	}
+
+	public String getDescriptionAward() {
+		return descriptionAward;
+	}
+
+	public void setDescriptionAward(String descriptionAward) {
+		this.descriptionAward = descriptionAward;
 	}
 
 }

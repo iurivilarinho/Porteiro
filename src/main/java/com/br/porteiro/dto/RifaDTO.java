@@ -21,6 +21,8 @@ public class RifaDTO {
 
 	private Usuario userCreation;
 
+	private String descriptionAward;
+
 	private List<CotaDTO> cotas = new ArrayList<>();
 
 	private Set<Documento> images = new HashSet<>();
@@ -34,6 +36,7 @@ public class RifaDTO {
 		this.userCreation = rifa.getUserCreation();
 		this.cotas = rifa.getCotas().stream().map(CotaDTO::new).toList();
 		this.images = rifa.getImages();
+		this.descriptionAward = rifa.getDescriptionAward();
 	}
 
 	public Long getId() {
@@ -62,6 +65,10 @@ public class RifaDTO {
 
 	public Set<Documento> getImages() {
 		return images;
+	}
+
+	public String getDescriptionAward() {
+		return descriptionAward;
 	}
 
 }

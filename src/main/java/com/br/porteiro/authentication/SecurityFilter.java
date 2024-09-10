@@ -32,7 +32,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		if ((request.getRequestURI().equals("/login") && request.getMethod().equals("POST"))
+				|| request.getRequestURI().startsWith("/rifas") || request.getRequestURI().startsWith("/pessoas")
 				|| request.getRequestURI().startsWith("/swagger") || request.getRequestURI().startsWith("/v3")
+				|| request.getRequestURI().startsWith("/reservation")
 				|| request.getRequestURI().startsWith("/recuperar_senha")) {
 			filterChain.doFilter(request, response);
 			return;

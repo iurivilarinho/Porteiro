@@ -32,6 +32,12 @@ public class RifaController {
 		return ResponseEntity.ok(new RifaDTO(rifa));
 	}
 
+	@GetMapping("/cpf/{cpf}")
+	public ResponseEntity<List<RifaDTO>> findByCpfUser(@PathVariable String cpf) {
+		List<Rifa> rifas = rifaService.findByCpfUser(cpf);
+		return ResponseEntity.ok(rifas.stream().map(RifaDTO::new).toList());
+	}
+
 	@PostMapping(consumes = { "multipart/form-data" })
 	public ResponseEntity<Rifa> create(@RequestPart RifaForm form, @RequestPart("files") List<MultipartFile> files)
 			throws IOException {
@@ -39,9 +45,9 @@ public class RifaController {
 		return ResponseEntity.ok(rifa);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping(value = "/{id}", consumes = { "multipart/form-data" })
 	public ResponseEntity<Rifa> update(@PathVariable Long id, @RequestPart RifaForm form,
-			@RequestPart("file") List<MultipartFile> files) throws IOException {
+			@RequestPart("files") List<MultipartFile> files) throws IOException {
 		Rifa updatedRifa = rifaService.update(id, form, files);
 		return ResponseEntity.ok(updatedRifa);
 	}

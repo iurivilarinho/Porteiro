@@ -24,6 +24,9 @@ public class RifaService {
 	private RifaRepository rifaRepository;
 
 	@Autowired
+	private UsuarioService usuarioService;
+
+	@Autowired
 	private DocumentoService documentoService;
 
 	@Transactional(readOnly = true)
@@ -37,11 +40,17 @@ public class RifaService {
 				.orElseThrow(() -> new EntityNotFoundException("Rifa não encontrada para ID " + id));
 	}
 
+	@Transactional(readOnly = true)
+	public List<Rifa> findByCpfUser(String cpf) {
+		return rifaRepository.findByCotas_Reservation_UserPurchase_Cpf(cpf);
+	}
+
 	@Transactional
 	public Rifa save(RifaForm form, List<MultipartFile> files) throws IOException {
 		List<Cota> cotas = new ArrayList<>();
 		Rifa rifa = new Rifa(form,
-				documentoService.converterEmListaDocumento(files.stream().collect(Collectors.toSet())));
+				documentoService.converterEmListaDocumento(files.stream().collect(Collectors.toSet())),
+				usuarioService.usuarioLogado());
 
 		for (long i = 1; i <= form.getNumberOfShares(); i++) {
 			cotas.add(new Cota(rifa, i, false));
@@ -60,7 +69,11 @@ public class RifaService {
 		Rifa rifa = findById(id);
 
 		rifa = form.updateRifa(rifa);
-		rifa.getImages().addAll(documentoService.converterEmListaDocumento(files.stream().collect(Collectors.toSet())));
+		if (files != null) {
+			rifa.getImages().clear();
+			rifa.getImages()
+					.addAll(documentoService.converterEmListaDocumento(files.stream().collect(Collectors.toSet())));
+		}
 
 		for (long i = 1; i <= form.getNumberOfShares(); i++) {
 			cotas.add(new Cota(rifa, i, false));

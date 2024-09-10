@@ -19,6 +19,8 @@ public class RifaForm {
 	@NotBlank(message = "O numero de Cotas não pode ser vazio!")
 	private Long numberOfShares;
 
+	private String descriptionAward;
+
 	public String getTitle() {
 		return title;
 	}
@@ -51,10 +53,15 @@ public class RifaForm {
 		this.quotaPrice = quotaPrice;
 	}
 
+	public String getDescriptionAward() {
+		return descriptionAward;
+	}
+
 	// Método para atualizar uma Rifa existente
 	public Rifa updateRifa(Rifa rifa) {
 		rifa.setTitle(this.title);
 		rifa.setDescription(this.description);
+		rifa.setDescriptionAward(this.descriptionAward);
 		return rifa;
 	}
 }

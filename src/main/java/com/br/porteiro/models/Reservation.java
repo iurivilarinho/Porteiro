@@ -26,9 +26,9 @@ public class Reservation {
 	@OneToMany(mappedBy = "reservation", cascade = CascadeType.MERGE)
 	private List<Cota> quotas = new ArrayList<>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_Id_User")
-	private Pessoa userPurchase;
+	private UserPurchase userPurchase;
 
 	public Reservation() {
 
@@ -54,11 +54,11 @@ public class Reservation {
 		this.quotas = quotas;
 	}
 
-	public Pessoa getUserPurchase() {
+	public UserPurchase getUserPurchase() {
 		return userPurchase;
 	}
 
-	public void setUserPurchase(Pessoa userPurchase) {
+	public void setUserPurchase(UserPurchase userPurchase) {
 		this.userPurchase = userPurchase;
 	}
 

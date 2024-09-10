@@ -3,7 +3,7 @@ package com.br.porteiro.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.br.porteiro.models.Pessoa;
+import com.br.porteiro.models.UserPurchase;
 
 public class ReservationForm {
 
@@ -11,7 +11,7 @@ public class ReservationForm {
 
 	private List<Long> quotasId = new ArrayList<>();
 
-	private Pessoa userPurchase;
+	private UserPurchase userPurchase;
 
 	public Long getRifaId() {
 		return rifaId;
@@ -21,7 +21,7 @@ public class ReservationForm {
 		return quotasId;
 	}
 
-	public Pessoa getUserPurchase() {
+	public UserPurchase getUserPurchase() {
 		return userPurchase;
 	}
 

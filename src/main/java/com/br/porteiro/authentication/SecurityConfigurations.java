@@ -27,7 +27,10 @@ public class SecurityConfigurations {
 
 		return http.csrf().disable().cors().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeHttpRequests()
-				.requestMatchers(HttpMethod.POST, "/login", "/recuperar_senha/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/login", "/recuperar_senha/**", "/rifas/**", "reservation/**")
+				.permitAll().requestMatchers(HttpMethod.GET, "/rifas/**", "/pessoas/**", "/pessoas?").permitAll()
+				.requestMatchers(HttpMethod.PUT, "/rifas/**", "/pessoas/**", "/pessoas?").permitAll()
+
 				.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll().anyRequest()
 				.authenticated().and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
