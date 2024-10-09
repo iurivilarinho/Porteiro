@@ -75,4 +75,10 @@ public class ErrorDetails {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
+	@ExceptionHandler(TokenAccessException.class)
+	public ResponseEntity<?> tratarErroToken(TokenAccessException ex) {
+		ErrorResponse error = new ErrorResponse(Arrays.asList(ex.getMessage()));
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+	}
+
 }

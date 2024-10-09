@@ -1,7 +1,6 @@
 package com.br.porteiro.form;
 
 import com.br.porteiro.models.Cargo;
-import com.br.porteiro.models.PaymentInformation;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,8 +34,6 @@ public class UsuarioForm {
 	@NotNull(message = "O campo 'cargo' não pode ser nulo.")
 	private Cargo cargo;
 
-	private PaymentInformation paymentInformation;
-
 	public String getLogin() {
 		return login;
 	}
@@ -67,10 +64,6 @@ public class UsuarioForm {
 
 	public Cargo getCargo() {
 		return cargo;
-	}
-
-	public PaymentInformation getPaymentInformation() {
-		return paymentInformation;
 	}
 
 }

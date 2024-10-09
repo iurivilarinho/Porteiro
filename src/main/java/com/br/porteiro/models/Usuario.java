@@ -75,10 +75,6 @@ public class Usuario implements UserDetails {
 	@Fetch(FetchMode.JOIN)
 	private Set<Perfil> perfis = new HashSet<>();
 
-	@ManyToOne
-	@JoinColumn(name = "fk_Id_PaymentInformation")
-	private PaymentInformation paymentInformation;
-
 	public Usuario() {
 
 	}
@@ -94,7 +90,6 @@ public class Usuario implements UserDetails {
 		this.imagem = imagem;
 		this.status = true;
 		this.cargo = form.getCargo();
-		this.paymentInformation = form.getPaymentInformation();
 
 	}
 
@@ -231,14 +226,6 @@ public class Usuario implements UserDetails {
 
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
-	}
-
-	public PaymentInformation getPaymentInformation() {
-		return paymentInformation;
-	}
-
-	public void setPaymentInformation(PaymentInformation paymentInformation) {
-		this.paymentInformation = paymentInformation;
 	}
 
 }
